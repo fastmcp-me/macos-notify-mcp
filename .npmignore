@@ -1,0 +1,30 @@
+# Source files
+src/
+tsconfig.json
+
+# Development files
+.gitignore
+.git/
+
+# Swift source files (but keep the built app)
+NotifyTmux/main.swift
+NotifyTmux/build-app.sh
+NotifyTmux/notify-swift
+
+# Old Deno files
+bin/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Temporary
+*.tmp
+tmp/
+temp/
+
+# Keep NotifyTmux.app
+!NotifyTmux/NotifyTmux.app/
