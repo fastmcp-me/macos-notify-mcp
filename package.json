@@ -19,7 +19,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "macos-notify-cli": "dist/cli.js"
+    "macos-notify-cli": "dist/cli-wrapper.cjs"
   },
   "files": [
     "dist",
@@ -27,6 +27,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "postbuild": "cp src/cli-wrapper.cjs dist/cli-wrapper.cjs && chmod +x dist/cli-wrapper.cjs",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "test": "vitest",
