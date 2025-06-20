@@ -89,19 +89,19 @@ To have Claude automatically use notifications in your projects, see [Integratio
 
 ```bash
 # Basic notification
-macos-notify-mcp -m "Build completed"
+macos-notify-cli -m "Build completed"
 
 # With title
-macos-notify-mcp -t "Development" -m "Tests passed"
+macos-notify-cli -t "Development" -m "Tests passed"
 
 # With tmux integration
-macos-notify-mcp -m "Task finished" -s my-session -w 1 -p 0
+macos-notify-cli -m "Task finished" -s my-session -w 1 -p 0
 
 # Use current tmux location
-macos-notify-mcp -m "Check this pane" --current
+macos-notify-cli -m "Check this pane" --current-tmux
 
 # List tmux sessions
-macos-notify-mcp --list-sessions
+macos-notify-cli --list-sessions
 ```
 
 ## How it Works

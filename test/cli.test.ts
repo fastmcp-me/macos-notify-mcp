@@ -197,8 +197,8 @@ describe('CLI', () => {
       })
     })
 
-    it('should use current tmux location with --current flag', async () => {
-      process.argv = ['node', 'cli.js', '-m', 'Current location', '--current']
+    it('should use current tmux location with --current-tmux flag', async () => {
+      process.argv = ['node', 'cli.js', '-m', 'Current location', '--current-tmux']
 
       await runCli()
 
@@ -213,7 +213,7 @@ describe('CLI', () => {
 
     it('should handle missing current tmux info', async () => {
       mockNotifier.getCurrentTmuxInfo.mockResolvedValue(null)
-      process.argv = ['node', 'cli.js', '-m', 'Test', '--current']
+      process.argv = ['node', 'cli.js', '-m', 'Test', '--current-tmux']
 
       await runCli()
 

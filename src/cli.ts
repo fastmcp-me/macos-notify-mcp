@@ -20,7 +20,7 @@ export async function main() {
   if (args.includes('--help') || args.includes('-h')) {
     console.log(`
 Usage:
-  macos-notify-mcp [options]
+  macos-notify-cli [options]
 
 Options:
   -m, --message <text>    Notification message (required)
@@ -29,19 +29,19 @@ Options:
   -w, --window <number>   tmux window number
   -p, --pane <number>     tmux pane number
   --sound <name>          Notification sound (default: "Glass")
-  --current               Use current tmux location
+  --current-tmux          Use current tmux location
   --list-sessions         List available tmux sessions
   -h, --help              Show this help message
 
 Examples:
   # Basic notification
-  macos-notify-mcp -m "Build completed"
+  macos-notify-cli -m "Build completed"
   
   # Navigate to specific session
-  macos-notify-mcp -m "Tests passed" -s development -w 1 -p 0
+  macos-notify-cli -m "Tests passed" -s development -w 1 -p 0
   
   # Use current tmux location
-  macos-notify-mcp -m "Task finished" --current
+  macos-notify-cli -m "Task finished" --current-tmux
     `)
     process.exit(0)
   }
@@ -83,7 +83,7 @@ Examples:
       case '--sound':
         options.sound = args[++i]
         break
-      case '--current': {
+      case '--current-tmux': {
         const current = await notifier.getCurrentTmuxInfo()
         if (current) {
           options.session = current.session

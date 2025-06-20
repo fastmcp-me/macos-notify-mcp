@@ -1,6 +1,6 @@
 {
   "name": "macos-notify-mcp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MCP server for macOS notifications with tmux integration",
   "keywords": [
     "mcp",
@@ -19,7 +19,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "macos-notify-mcp": "dist/cli.js"
+    "macos-notify-cli": "dist/cli.js"
   },
   "files": [
     "dist",

@@ -114,12 +114,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case 'send_notification': {
         // Safely extract properties from args
         const notificationArgs = args as Record<string, unknown>
-        
+
         // Validate message is provided
         if (!notificationArgs.message) {
           throw new Error('Message is required')
         }
-        
+
         const options: NotificationOptions = {
           message: String(notificationArgs.message),
           title: notificationArgs.title
