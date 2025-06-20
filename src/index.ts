@@ -18,7 +18,7 @@ interface NotificationOptions {
 const server = new Server(
   {
     name: 'macos-notify-mcp',
-    version: '0.0.5',
+    version: '0.0.6',
   },
   {
     capabilities: {
