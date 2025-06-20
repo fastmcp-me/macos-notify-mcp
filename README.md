@@ -103,7 +103,7 @@ macos-notify-cli --list-sessions
 
 1. **Notification Delivery**: Uses a native macOS app bundle (MacOSNotifyMCP.app) to send UserNotifications API notifications
 2. **Click Handling**: When a notification is clicked, the app activates the terminal and switches to the specified tmux session
-3. **Terminal Support**: Works with Alacritty, iTerm2, and Terminal.app
+3. **Terminal Support**: Works with Alacritty, iTerm2, WezTerm, and Terminal.app
 4. **Multiple Instances**: Each notification runs as a separate process, allowing multiple concurrent notifications
 
 ## Architecture
@@ -136,7 +136,7 @@ The MacOSNotifyMCP.app is bundled with the npm package and is automatically avai
 
 1. Ensure tmux is installed and running
 2. Check session names with `macos-notify-mcp --list-sessions`
-3. Verify terminal app is supported (Alacritty, iTerm2, or Terminal)
+3. Verify terminal app is supported (Alacritty, iTerm2, WezTerm, or Terminal)
 
 ## Development
 

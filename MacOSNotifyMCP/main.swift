@@ -129,7 +129,7 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
     }
     
     private func activateTerminal() {
-        let terminals = ["Alacritty", "iTerm2", "Terminal"]
+        let terminals = ["Alacritty", "iTerm2", "WezTerm", "Terminal"]
         
         for terminal in terminals {
             if isAppRunning(terminal) {
