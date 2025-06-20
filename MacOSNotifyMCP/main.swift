@@ -18,7 +18,8 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
         sound: String = "default",
         session: String? = nil,
         window: String? = nil,
-        pane: String? = nil
+        pane: String? = nil,
+        terminal: String? = nil
     ) {
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
             if granted {
@@ -28,7 +29,8 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
                     sound: sound,
                     session: session,
                     window: window,
-                    pane: pane
+                    pane: pane,
+                    terminal: terminal
                 )
             } else {
                 print("Notification permission denied")
@@ -43,7 +45,8 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
         sound: String,
         session: String?,
         window: String?,
-        pane: String?
+        pane: String?,
+        terminal: String?
     ) {
         let content = UNMutableNotificationContent()
         content.title = title
@@ -54,7 +57,7 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
             content.sound = UNNotificationSound(named: UNNotificationSoundName(sound + ".aiff"))
         }
         
-        // tmux情報をuserInfoに格納
+        // tmux情報とターミナル情報をuserInfoに格納
         var userInfo: [String: Any] = [:]
         if let session = session {
             userInfo["session"] = session
@@ -64,6 +67,9 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
             if let pane = pane {
                 userInfo["pane"] = pane
             }
+        }
+        if let terminal = terminal {
+            userInfo["terminal"] = terminal
         }
         content.userInfo = userInfo
         
@@ -89,13 +95,18 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
+        let terminal = userInfo["terminal"] as? String
         
         if let session = userInfo["session"] as? String {
             focusToTmux(
                 session: session,
                 window: userInfo["window"] as? String,
-                pane: userInfo["pane"] as? String
+                pane: userInfo["pane"] as? String,
+                terminal: terminal
             )
+        } else if let terminal = terminal {
+            // tmuxセッションがない場合でもターミナルをアクティブ化
+            activateTerminal(preferredTerminal: terminal)
         }
         
         completionHandler()
@@ -106,9 +117,9 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
-    private func focusToTmux(session: String, window: String?, pane: String?) {
+    private func focusToTmux(session: String, window: String?, pane: String?, terminal: String?) {
         // Activate terminal
-        activateTerminal()
+        activateTerminal(preferredTerminal: terminal)
         
         // Execute tmux commands
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -128,8 +139,27 @@ class MacOSNotifyMCP: NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
-    private func activateTerminal() {
-        let terminals = ["Alacritty", "iTerm2", "WezTerm", "Terminal"]
+    private func activateTerminal(preferredTerminal: String? = nil) {
+        // ターミナルタイプからアプリケーション名へのマッピング
+        let terminalMap: [String: String] = [
+            "VSCode": "Visual Studio Code",
+            "Cursor": "Cursor",
+            "iTerm2": "iTerm2",
+            "Terminal": "Terminal",
+            "alacritty": "Alacritty"
+        ]
+        
+        // 検出されたターミナルを優先的に使用
+        if let preferred = preferredTerminal,
+           let appName = terminalMap[preferred] {
+            if isAppRunning(appName) {
+                runCommand("/usr/bin/osascript", args: ["-e", "tell application \"\(appName)\" to activate"])
+                return
+            }
+        }
+        
+        // フォールバック: 実行中のターミナルを探す
+        let terminals = ["Alacritty", "iTerm2", "WezTerm", "Terminal", "Visual Studio Code", "Cursor"]
         
         for terminal in terminals {
             if isAppRunning(terminal) {
@@ -215,6 +245,7 @@ var session: String?
 var window: String?
 var pane: String?
 var sound = "default"
+var terminal: String?
 
 var i = 1
 let args = CommandLine.arguments
@@ -250,6 +281,11 @@ while i < args.count {
             sound = args[i + 1]
             i += 1
         }
+    case "--terminal":
+        if i + 1 < args.count {
+            terminal = args[i + 1]
+            i += 1
+        }
     case "-h", "--help":
         print("""
         Usage:
@@ -262,6 +298,7 @@ while i < args.count {
           -w, --window <number>   tmux window number
           -p, --pane <number>     tmux pane number
           --sound <name>          Notification sound (default: "default")
+          --terminal <type>       Terminal type (VSCode, Cursor, iTerm2, etc.)
         
         Examples:
           MacOSNotifyMCP -m "Build completed"
@@ -290,7 +327,8 @@ notifier.requestPermissionAndSendNotification(
     sound: sound,
     session: session,
     window: window,
-    pane: pane
+    pane: pane,
+    terminal: terminal
 )
 
 // Run the app

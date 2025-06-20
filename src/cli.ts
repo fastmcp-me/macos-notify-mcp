@@ -31,6 +31,7 @@ Options:
   --sound <name>          Notification sound (default: "Glass")
   --current-tmux          Use current tmux location
   --list-sessions         List available tmux sessions
+  --detect-terminal       Detect and display the current terminal emulator
   -h, --help              Show this help message
 
 Examples:
@@ -50,6 +51,12 @@ Examples:
     const sessions = await notifier.listSessions()
     console.log('Available tmux sessions:')
     sessions.forEach((s) => console.log(`  ${s}`))
+    process.exit(0)
+  }
+
+  if (args.includes('--detect-terminal')) {
+    const terminal = await notifier.getTerminalEmulator()
+    console.log(`Detected terminal: ${terminal}`)
     process.exit(0)
   }
 
