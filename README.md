@@ -39,12 +39,18 @@ npm run build-app  # Build the macOS app bundle (only needed for development)
 
 ### As MCP Server
 
+First, install the package globally:
+
+```bash
+npm install -g macos-notify-mcp
+```
+
 #### Quick Setup with Claude Code
 
 Use the `claude mcp add` command:
 
 ```bash
-claude mcp add macos-notify -s user -- npx -y macos-notify-mcp
+claude mcp add macos-notify -s user -- macos-notify-mcp
 ```
 
 Then restart Claude Code.
@@ -57,8 +63,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "macos-notify": {
-      "command": "npx",
-      "args": ["macos-notify-mcp"]
+      "command": "macos-notify-mcp"
     }
   }
 }
