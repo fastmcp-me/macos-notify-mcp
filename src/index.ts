@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
@@ -15,10 +18,16 @@ interface NotificationOptions {
   pane?: string
 }
 
+// Get version from package.json
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'),
+)
+
 const server = new Server(
   {
     name: 'macos-notify-mcp',
-    version: '0.0.6',
+    version: packageJson.version,
   },
   {
     capabilities: {
