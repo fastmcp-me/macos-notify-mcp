@@ -1,6 +1,6 @@
 {
   "name": "macos-notify-mcp",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "MCP server for macOS notifications with tmux integration",
   "keywords": [
     "mcp",
