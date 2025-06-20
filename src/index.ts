@@ -15,20 +15,10 @@ interface NotificationOptions {
   pane?: string
 }
 
-interface SendNotificationArgs {
-  message: string
-  title?: string
-  sound?: string
-  session?: string
-  window?: string
-  pane?: string
-  useCurrent?: boolean
-}
-
 const server = new Server(
   {
     name: 'macos-notify-mcp',
-    version: '0.1.0',
+    version: '0.0.3',
   },
   {
     capabilities: {

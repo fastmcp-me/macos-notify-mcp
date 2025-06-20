@@ -64,11 +64,6 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-For detailed setup instructions, see [Claude Code Setup Guide](docs/CLAUDE_CODE_SETUP.md).
-
-### Integrating into Your Projects
-
-To have Claude automatically use notifications in your projects, see [Integration Guide](docs/INTEGRATION_GUIDE.md).
 
 ### Available MCP Tools
 
