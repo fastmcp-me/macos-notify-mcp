@@ -24,7 +24,7 @@ Usage:
 
 Options:
   -m, --message <text>    Notification message (required)
-  -t, --title <text>      Notification title (default: "Claude Code")
+  -t, --title <text>      Notification title (default: git repository name)
   -s, --session <name>    tmux session name
   -w, --window <number>   tmux window number
   -p, --pane <number>     tmux pane number
@@ -89,6 +89,9 @@ Examples:
           options.session = current.session
           options.window = current.window
           options.pane = current.pane
+        } else {
+          console.error('Error: Not in a tmux session')
+          process.exit(1)
         }
         break
       }

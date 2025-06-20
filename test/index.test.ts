@@ -353,7 +353,7 @@ describe('MCP Server', () => {
       const { Server } = await import('@modelcontextprotocol/sdk/server/index.js')
       expect(Server).toHaveBeenCalledWith({
         name: 'macos-notify-mcp',
-        version: '0.1.0',
+        version: '0.0.3',
       }, expect.any(Object))
     })
 

@@ -217,11 +217,10 @@ describe('CLI', () => {
 
       await runCli()
 
-      // When --current returns null, it should still send the notification
-      // without session/window/pane
-      expect(mockNotifier.sendNotification).toHaveBeenCalledWith({
-        message: 'Test',
-      })
+      // When --current returns null, it should exit with error
+      expect(exitCode).toBe(1)
+      expect(mockNotifier.sendNotification).not.toHaveBeenCalled()
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Error: Not in a tmux session')
     })
 
     it('should validate session exists', async () => {
